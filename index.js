@@ -5,7 +5,9 @@ app.set('port', (process.env.PORT || 8080))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', function(request, response) {
-  response.send("Github -> CodeShip -> AWS\
+  response.send("\
+https://github.com/CamJohnson26/web-project<br>\
+Github -> CodeShip -> AWS\
 \
 Listens for a commit to master and triggers a codeship build. Deploys to AWS and runs the scripts in Scripts, based on instructions in appspec.yml.\
 \
