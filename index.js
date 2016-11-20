@@ -5,7 +5,12 @@ app.set('port', (process.env.PORT || 8080))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', function(request, response) {
-  response.send('Hello Hamilton\'s World!')
+  response.send("Github -> CodeShip -> AWS\
+\
+Listens for a commit to master and triggers a codeship build. Deploys to AWS and runs the scripts in Scripts, based on instructions in appspec.yml.\
+\
+index.js running at http://35.164.104.178/\
+")
 })
 
 app.listen(app.get('port'), function() {
