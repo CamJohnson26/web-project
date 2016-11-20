@@ -6,5 +6,8 @@ files:
 hooks:
   BeforeInstall:
     - location: Scripts/BeforeInstall.sh
-    - runas: ec2-user
-
+    runas: ec2-user
+  AfterInstall:
+    - location: Scripts/AfterInstall.sh
+    runas: ec2-user
+    timeout: 20
