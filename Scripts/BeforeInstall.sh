@@ -1,0 +1,1 @@
+forever stop ~/web-project/index.js
