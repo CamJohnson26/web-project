@@ -1,1 +1,1 @@
-node ~/web-project/index.js
+forever start ~/web-project/index.js
