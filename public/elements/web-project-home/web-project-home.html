@@ -1,12 +1,12 @@
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 <dom-module id="web-project-home">
   <template>
     <style include="shared-styles"></style>
     <style>
-      :host {
+       :host {
         display: block;
       }
 
@@ -16,8 +16,11 @@
     </style>
 
     <paper-card>
-      <div>
-        Hey it worked!
+      <div class="card-content">
+        <paper-input value="{{name}}" label="Hi what is your name?"></paper-input>
+        <div>
+          Oh hi! [[name]]
+        </div>
       </div>
     </paper-card>
 
@@ -34,50 +37,9 @@
             type: String,
             value: '',
             notify: true
-          },
-          welcomeMessage: {
-            type: String,
-            notify: true,
-            computed: "_getName(name)"
-
           }
         },
-        _getName: function(name) {
-          if (name === '') {
-            return "Interested? What is your name?"
-          }
-          return "Welcome "
-        },
 
-        _hideChecked: function(name) {
-          //console.log("_hideChecked:returns" + name == '');
-          return name === '';
-        },
-
-        //Only show LearnMoreButton if atleast one option is checked.
-        _hideButton: function(checked1, checked2, checked3) {
-          //console.log("c1 = " + checked1 + ", c2 = " + checked2 + ", c3 = " + checked3);
-          console.log("hideChecked = " + !(checked1 || checked2 || checked3));
-          //console.log("hideChecked = " + //(checked1 === 'false')); // || checked2 === 'false' || checked3 === 'false'));
-          return !(checked1 || checked2 || checked3);
-        },
-
-        _hideButton2: function(selection){
-          console.log("hideButton2 = " + selection);
-          return selection;
-        },
-
-        _change1handler: function() {
-          console.log("c1 has changed");
-        },
-
-        aButton: function(e, details) {
-          console.log("A BUTTON... was pressed");
-          console.log(this.$.inputName.validate());
-        },
-        learnMoreButton: function(e, details) {
-          console.log("learnMoreButton... was pressed");
-        }
       });
     })();
   </script>
