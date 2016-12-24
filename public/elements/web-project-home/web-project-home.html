@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="web-project-home">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+       :host {
+        display: block;
+      }
+
+      .abutton {
+        background-color: #aa0000;
+      }
+    </style>
+
+    <paper-card>
+      <div class="card-content">
+        <paper-input value="{{name}}" label="Hi what is your name?"></paper-input>
+        <div>
+          Oh hi! [[name]]
+        </div>
+      </div>
+    </paper-card>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'web-project-home',
+
+        properties: {
+          name: {
+            type: String,
+            value: '',
+            notify: true
+          }
+        },
+
+      });
+    })();
+  </script>
+</dom-module>
