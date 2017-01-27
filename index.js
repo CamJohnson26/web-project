@@ -17,6 +17,17 @@ index.js running at http://35.164.104.178/\
 ');
 });
 
+app.get('/testDB/download/', function(request, response){
+  response.sendFile(__dirname + '/WordList.sqlite', function(err){
+    if(err){
+      console.log('error encountered -- ' + err);
+      response.status(err.status).end();
+    } else {
+      console.log('Sent: WordList.sqlite');
+    }
+  });
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running at localhost:' + app.get('port'));
 });
