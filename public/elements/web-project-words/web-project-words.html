@@ -1,0 +1,106 @@
+<!--imports-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<!-- <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html"> -->
+<!-- <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html"> -->
+<!-- <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html"> -->
+<!-- <link rel="import" href="../../bower_components/iron-icons/iron-icons.html"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<!-- <link rel="import" href="../../bower_components/iron-pages/iron-pages.html"> -->
+<!-- <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html"> -->
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<!--end imports-->
+<dom-module id="web-project-words">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+        display: flex;
+        flex-direction: column;
+      }
+      iron-list{
+        flex: 1 1 auto;
+      }
+      paper-toolbar {
+        --paper-toolbar-background: #252525;
+      }
+      paper-input {
+        --paper-input-container-focus-color: #505050;
+        --paper-input-container-input-color: lightgray;
+      }
+      paper-card {
+        flex: 0 0 270px;
+        max-width: 270px;
+      }
+    </style>
+    <!-- <app-location route="{{route}}"></app-location>
+    <app-route
+      route="{{route}}"
+      pattern="/:wordPattern"
+      data="{{routeData}}"
+      tail="{{subroute}}"></app-route> -->
+    <iron-ajax
+      auto
+      url="/testDB/retrievewords/"
+      params='{{_getWordPattern(wordPattern)}}'
+      handle-as="json"
+      last-response="{{wordRows}}"
+      debounce-duration='500'></iron-ajax>
+    <paper-header-panel mode="waterfall">
+      <paper-toolbar>
+        <paper-input label="Enter know pattern..." value={{wordPattern}}>
+          <paper-icon-button suffix icon="clear" hidden$="[[!wordPattern]]"></paper-icon-button>
+        </paper-input>
+        <div>
+          Word length: [[wordPattern.length]]
+        </div>
+      </paper-toolbar>
+        <iron-list items="[[wordRows]]" as="row">
+          <template>
+            <paper-card>
+              <div class="card-content">
+                [[row.word]]
+              </div>
+            </paper-card>
+          </template>
+        </iron-list>
+    </paper-header-panel>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'web-project-words',
+        properties: {
+          wordPattern: {
+            type: String,
+            value: '',
+            notify: true
+          },
+          wordRows: {
+            type: Array,
+            notify: true
+          }
+        },
+
+        _getWords: function(event) {
+            console.log(event.detail);
+            if(event.detail){
+              console.log(event.detail.request.xhr.response);
+            }
+          return event;
+        },
+        _getWordPattern: function(wPattern) {
+          return {pattern:wPattern};
+        }
+      });
+    })();
+  </script>
+</dom-module>
