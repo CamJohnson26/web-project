@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
 <dom-module id="web-project-home">
   <template>
@@ -18,15 +20,18 @@
     <paper-card>
       <div class="card-content">
         <paper-input value="{{name}}" label="Hi what is your name?"></paper-input>
-        <div>
-          Oh hi! [[name]]
-        </div>
+        <div>Oh hi! [[name]]</div>
+        <div>.... would you like to ask the server what time it is there?</div>
+        <paper-button raised on-tap="askServer">Ask</paper-button>
+
       </div>
     </paper-card>
 
   </template>
   <script>
-    (function() {
+    const socket = io.connect('http://172.31.98.70:8080');
+
+    (() => {
       'use strict';
 
       Polymer({
@@ -36,10 +41,23 @@
           name: {
             type: String,
             value: '',
-            notify: true
-          }
+            notify: true,
+          },
         },
 
+        ready() {
+          socket.on('time now server', (time) => {
+            console.log(time);
+          });
+          socket.on('test', (message) => {
+            console.log('test', message);
+          });
+        },
+
+        askServer() {
+          console.log('askServer');
+          socket.emit('time now there');
+        },
       });
     })();
   </script>
