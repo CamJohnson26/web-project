@@ -15,4 +15,4 @@ deployment:
       - docker push "camjohnson26/web-project:$CIRCLE_BUILD_NUM"
       - sed -i'' -e "s;%BUILD_NUM%;$CIRCLE_BUILD_NUM;g" ./.deploy/Dockerrun.aws.json
       - cd .deploy && eb init -r us-west-2 -p Docker web-project
-      - cd .deploy && eb deploy Default-Environment -l $CIRCLE_BUILD_NUM
+      - cd .deploy && eb deploy web-project -l $CIRCLE_BUILD_NUM
