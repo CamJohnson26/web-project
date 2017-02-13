@@ -1,7 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
 <script src="http://cdn.socket.io/socket.io-1.4.5.js"></script>
 
 <dom-module id="web-project-home">
@@ -15,15 +21,32 @@
       .abutton {
         background-color: #aa0000;
       }
+
+      [hidden] {
+        display: none;
+      }
     </style>
 
     <paper-card>
       <div class="card-content">
-        <paper-input value="{{name}}" label="Hi what is your name?"></paper-input>
-        <div>Oh hi! [[name]]</div>
-        <div>.... would you like to ask the server what time it is there?</div>
-        <paper-button raised on-tap="askServer">Ask</paper-button>
+        <paper-input value="{{name}}" label="Hi what is your name?">
+          <paper-icon-button suffix on-tap="sendName" icon="send" alt="clear" title="clear">
+        </paper-input>
+        <!-- <paper-button raised on-tap="sendName">Oh hi! [[name]]</paper-button> -->
+        <div>
+          Look at all the names of other people (well the last 10)!
+        </div>
+          <paper-menu class="list">
+            <template is="dom-repeat" items="[[names]]" index-as="index" as="name">
+              <paper-item>name [[index]]: [[name]]</paper-item>
+            </template>
+          </paper-menu>
 
+        <div>.... would you like to ask the server what time it is there?</div>
+        <paper-button raised on-tap="askServerTime">
+          <span>Ask</span>
+          <span hidden$="[[_isNull(time)]]">...Again? [[time]]</span>
+        </paper-button>
       </div>
     </paper-card>
 
@@ -35,8 +58,8 @@
       'timeout': 10000,
       'transports': ['websocket'],
     };
-    // const url = 'http://localhost:8080/';
-    const url = 'http://35.164.104.178/';
+    const url = 'http://localhost:8080/';
+    // const url = 'http://35.164.104.178/';
     const socket = io.connect(url, connectionOptions);
 
     (() => {
@@ -51,20 +74,42 @@
             value: '',
             notify: true,
           },
+          time: {
+            type: String,
+            value: null,
+          },
+          names: {
+            type: Array,
+            value: [],
+          },
         },
 
         ready() {
           socket.on('time now server', (time) => {
             console.log(time);
+            this.set('time', time);
+            // ^= over kill, if you are ever setting a pointer use this function
           });
-          socket.on('test', (message) => {
-            console.log('test', message);
+          socket.on('new name list', (names) => {
+            console.log('names', names);
+            this.set('names', names);
           });
+          socket.emit('get name list');
         },
 
-        askServer() {
-          console.log('askServer');
+        askServerTime() {
+          console.log('askServerTime');
           socket.emit('time now there');
+        },
+
+        sendName() {
+          socket.emit('newName', this.name);
+          this.set('name', '');
+        },
+
+        _isNull(time) {
+          console.log('time');
+          return !time;
         },
       });
     })();
