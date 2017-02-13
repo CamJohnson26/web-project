@@ -8,7 +8,8 @@
     "lint": "eslint --fix index.js"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "socket.io": "^1.7.2"
   },
   "engines": {
     "node": "4.0.0"
@@ -28,7 +29,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^3.12.2",
-    "eslint-config-google": "^0.7.1"
+    "eslint": "^3.15.0",
+    "eslint-config-google": "^0.7.1",
+    "eslint-plugin-html": "^2.0.0"
   }
 }
