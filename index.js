@@ -11,12 +11,11 @@
 
   const region = config.AWS.region;
   const profile = app.get('env');
-  try {
+  if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY ) {
     const credentials = new AWS.SharedIniFileCredentials({profile: profile});
-    AWS.config.credentials = credentials;
-  }
-  catch (e) {
-    console.log(e)
+    //AWS.config.credentials = credentials;
+    process.env.AWS_ACCESS_KEY_ID = credentials.accessKeyId;
+    process.env.AWS_SECRET_ACCESS_KEY = credentials.secretAccessKey;
   }
 
   const dynamodb = new AWS.DynamoDB({region: region});
