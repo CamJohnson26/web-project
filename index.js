@@ -11,9 +11,13 @@
 
   const region = config.AWS.region;
   const profile = app.get('env');
-
-  const credentials = new AWS.SharedIniFileCredentials({profile: profile});
-  AWS.config.credentials = credentials;
+  try {
+    const credentials = new AWS.SharedIniFileCredentials({profile: profile});
+    AWS.config.credentials = credentials;
+  }
+  catch (e) {
+    console.log(e)
+  }
 
   const dynamodb = new AWS.DynamoDB({region: region});
 
