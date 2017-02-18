@@ -1,5 +1,9 @@
 {
   "AWSEBDockerrunVersion": "1",
+  "Authentication": {
+    "Bucket": "elasticbeanstalk-us-west-2-913173764024",
+    "Key": "dockercfg.json"
+  },
   "Image": {
     "Name": "camjohnson26/web-project:%BUILD_NUM%",
     "Update": "true"
@@ -8,5 +12,7 @@
     {
       "ContainerPort": "8080"
     }
+  ],
+  "Volumes": [
   ]
 }
