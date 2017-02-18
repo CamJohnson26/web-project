@@ -10,7 +10,6 @@ deployment:
   production:
     branch: master
     commands:
-      - mkdir ~/.aws
       - echo -e "[development]\naws_access_key_id=$AWS_ACCESS_KEY_ID_DEV\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY_DEV\n[production]\naws_access_key_id=$AWS_ACCESS_KEY_ID_PROD\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY_PROD\n" > ~/.aws/credentials
       - docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASS"
       - docker build -t "camjohnson26/web-project:$CIRCLE_BUILD_NUM" .
