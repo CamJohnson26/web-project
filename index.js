@@ -3,7 +3,7 @@
 
   const express = require('express');
   const app = express();
-  const config = require('./config-'+app.get('env')+".js")
+  const config = require('./config-'+app.get('env')+'.js');
 
   const server = require('http').createServer(app);
   const io = require('socket.io')(server);
@@ -22,7 +22,7 @@
   app.set('port', (process.env.PORT || 8080));
 
   io.on('connection', function(socket) {
-    console.log("Client connected")
+    console.log('Client connected');
     socket.emit('test', 'testMessage');
     socket.on('time now there', () => {
       console.log('time now there');
@@ -34,41 +34,43 @@
         if (err) {
           console.log(err, err.stack);
         } else {
-          getNamesFromDynamo(socket)
+          getNamesFromDynamo(socket);
         }
-      })
+      });
     });
-    socket.on('get name list', function () {
-      console.log("test")
+    socket.on('get name list', function() {
+      console.log('test');
       getNamesFromDynamo(socket);
     });
   });
 
   function createNewNameInDynamo(name, callback) {
-    var params = {
+    let params = {
     Key: {
         name: {
-          S: name
-        }
+          S: name,
+        },
       },
-      TableName: "Names"
+      TableName: 'Names',
     };
 
-    dynamodb.updateItem(params, callback)
+    dynamodb.updateItem(params, callback);
   }
 
   function getNamesFromDynamo(socket) {
     let params = {
-        TableName: "Names"
-      }
+        TableName: 'Names',
+      };
 
     dynamodb.scan(params, function(err, data) {
         if (err) {
           console.log(err, err.stack);
         } else {
-          let names = data.Items.map((i) => {return i.name.S})
+          let names = data.Items.map((i) => {
+return i.name.S;
+});
           console.log('coool names is now', names);
-          socket.emit('new name list', names)
+          socket.emit('new name list', names);
         }
       });
   }
