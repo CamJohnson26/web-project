@@ -8,6 +8,7 @@
     "lint": "eslint --fix index.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.16.0",
     "express": "^4.13.3",
     "socket.io": "^1.7.2"
   },
